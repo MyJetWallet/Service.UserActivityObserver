@@ -5,9 +5,9 @@ using Service.UserActivityObserver.Grpc.Models;
 namespace Service.UserActivityObserver.Grpc
 {
     [ServiceContract]
-    public interface IHelloService
+    public interface IActivityService
     {
         [OperationContract]
-        Task<HelloMessage> SayHelloAsync(HelloRequest request);
+        Task<ActivityListResponse> GetActivityEvents();
     }
 }

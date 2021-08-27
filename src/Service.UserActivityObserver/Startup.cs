@@ -50,7 +50,7 @@ namespace Service.UserActivityObserver
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcSchema<HelloService, IHelloService>();
+                endpoints.MapGrpcSchema<ActivityService, IActivityService>();
 
                 endpoints.MapGrpcSchemaRegistry();
 

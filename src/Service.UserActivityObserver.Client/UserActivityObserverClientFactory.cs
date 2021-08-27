@@ -11,6 +11,6 @@ namespace Service.UserActivityObserver.Client
         {
         }
 
-        public IHelloService GetHelloService() => CreateGrpcService<IHelloService>();
+        public IActivityService GetActivityService() => CreateGrpcService<IActivityService>();
     }
 }

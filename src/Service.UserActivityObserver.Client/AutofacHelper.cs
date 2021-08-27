@@ -11,7 +11,7 @@ namespace Service.UserActivityObserver.Client
         {
             var factory = new UserActivityObserverClientFactory(grpcServiceUrl);
 
-            builder.RegisterInstance(factory.GetHelloService()).As<IHelloService>().SingleInstance();
+            builder.RegisterInstance(factory.GetActivityService()).As<IActivityService>().SingleInstance();
         }
     }
 }
