@@ -16,8 +16,9 @@ namespace Service.UserActivityObserver.Modules
         protected override void Load(ContainerBuilder builder)
         {
             var noSqlClient = builder.CreateNoSqlClient(Program.ReloadedSettings(e => e.MyNoSqlReaderHostPort));
-            builder.RegisterMyNoSqlReader<RootSessionNoSqlEntity>(noSqlClient, RootSessionNoSqlEntity.TableName);
+            var authNoSqlClient = builder.CreateNoSqlClient(Program.ReloadedSettings(e => e.AuthMyNoSqlReaderHostPort));
             builder.RegisterMyNoSqlReader<ClientWalletNoSqlEntity>(noSqlClient, ClientWalletNoSqlEntity.TableName);
+            builder.RegisterMyNoSqlReader<RootSessionNoSqlEntity>(authNoSqlClient, RootSessionNoSqlEntity.TableName);
             builder.RegisterMyNoSqlWriter<UserActivityNoSqlEntity>(Program.ReloadedSettings(e => e.MyNoSqlWriterUrl),
                 UserActivityNoSqlEntity.TableName);
             var personalDataClientFactory = new MyGrpcClientFactory(Program.Settings.PersonalDataServiceUrl);

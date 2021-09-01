@@ -17,6 +17,9 @@ namespace Service.UserActivityObserver.Settings
         [YamlProperty("UserActivityObserver.MyNoSqlReaderHostPort")]
         public string MyNoSqlReaderHostPort { get; set; }
         
+        [YamlProperty("UserActivityObserver.AuthMyNoSqlReaderHostPort")]
+        public string AuthMyNoSqlReaderHostPort { get; set; }
+        
         [YamlProperty("UserActivityObserver.PersonalDataServiceUrl")]
         public string PersonalDataServiceUrl { get; set; }
         
