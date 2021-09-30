@@ -1,13 +1,10 @@
 ﻿using Autofac;
-using Autofac.Core;
-using Autofac.Core.Registration;
 using MyJetWallet.Sdk.Authorization.NoSql;
-using MyJetWallet.Sdk.Grpc;
 using MyJetWallet.Sdk.NoSql;
 using Service.ClientWallets.MyNoSql;
+using Service.PersonalData.Client;
 using Service.UserActivityObserver.Domain.Models;
 using Service.UserActivityObserver.Services;
-using SimpleTrading.PersonalData.Grpc;
 
 namespace Service.UserActivityObserver.Modules
 {
@@ -21,12 +18,8 @@ namespace Service.UserActivityObserver.Modules
             builder.RegisterMyNoSqlReader<RootSessionNoSqlEntity>(authNoSqlClient, RootSessionNoSqlEntity.TableName);
             builder.RegisterMyNoSqlWriter<UserActivityNoSqlEntity>(Program.ReloadedSettings(e => e.MyNoSqlWriterUrl),
                 UserActivityNoSqlEntity.TableName);
-            var personalDataClientFactory = new MyGrpcClientFactory(Program.Settings.PersonalDataServiceUrl);
 
-            builder
-                .RegisterInstance(personalDataClientFactory.CreateGrpcService<IPersonalDataServiceGrpc>())
-                .As<IPersonalDataServiceGrpc>()
-                .SingleInstance();
+            builder.RegisterPersonalDataClient(Program.Settings.PersonalDataServiceUrl);
 
 
             builder

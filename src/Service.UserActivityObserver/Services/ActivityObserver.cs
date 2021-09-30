@@ -6,11 +6,9 @@ using Microsoft.Extensions.Logging;
 using MyJetWallet.Sdk.Authorization.NoSql;
 using MyNoSqlServer.Abstractions;
 using Service.ClientWallets.MyNoSql;
+using Service.PersonalData.Grpc;
+using Service.PersonalData.Grpc.Contracts;
 using Service.UserActivityObserver.Domain.Models;
-using Service.UserActivityObserver.Grpc;
-using Service.UserActivityObserver.Grpc.Models;
-using Service.UserActivityObserver.Settings;
-using SimpleTrading.PersonalData.Grpc;
 
 namespace Service.UserActivityObserver.Services
 {
@@ -37,7 +35,10 @@ namespace Service.UserActivityObserver.Services
             {
                 var events = new List<UserActivity>();
                 var personalDatas = 
-                    (await _personalDataServiceGrpc.GetByIdsAsync(sessions.Select(e => e.TraderId))).PersonalDatas
+                    (await _personalDataServiceGrpc.GetByIdsAsync(new GetByIdsRequest()
+                    {
+                        Ids = sessions.Select(e => e.TraderId).ToList()
+                    })).PersonalDatas
                     .ToDictionary(key=>key.Id, value=>value);
 
                 foreach (var session in sessions)
@@ -62,7 +63,10 @@ namespace Service.UserActivityObserver.Services
         {
             var events = new List<UserActivity>();
             var personalDatas = 
-                (await _personalDataServiceGrpc.GetByIdsAsync(sessions.Select(e => e.TraderId))).PersonalDatas
+                (await _personalDataServiceGrpc.GetByIdsAsync(new GetByIdsRequest()
+                {
+                    Ids = sessions.Select(e => e.TraderId).ToList()
+                })).PersonalDatas
                 .ToDictionary(key=>key.Id, value=>value);
 
             foreach (var session in sessions)
@@ -91,7 +95,10 @@ namespace Service.UserActivityObserver.Services
                 if (newWallets.Any())
                 {
                     var personalDatas = 
-                        (await _personalDataServiceGrpc.GetByIdsAsync(wallets.Select(e => e.ClientId)))
+                        (await _personalDataServiceGrpc.GetByIdsAsync(new GetByIdsRequest()
+                        {
+                            Ids = wallets.Select(e => e.ClientId).ToList()
+                        }))
                         .PersonalDatas
                         .ToDictionary(key=>key.Id, value=>value);
 
