@@ -12,9 +12,8 @@ namespace Service.UserActivityObserver.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            var noSqlClient = builder.CreateNoSqlClient(Program.ReloadedSettings(e => e.MyNoSqlReaderHostPort));
-            var authNoSqlClient = builder.CreateNoSqlClient(Program.ReloadedSettings(e => e.AuthMyNoSqlReaderHostPort));
-            
+            var noSqlClient = builder.CreateNoSqlClient(Program.Settings.MyNoSqlReaderHostPort, Program.LogFactory);
+            var authNoSqlClient = builder.CreateNoSqlClient(Program.Settings.AuthMyNoSqlReaderHostPort, Program.LogFactory);
             builder.RegisterMyNoSqlReader<ClientWalletNoSqlEntity>(noSqlClient, ClientWalletNoSqlEntity.TableName);
             builder.RegisterMyNoSqlReader<RootSessionNoSqlEntity>(authNoSqlClient, RootSessionNoSqlEntity.TableName);
             builder.RegisterMyNoSqlWriter<UserActivityNoSqlEntity>(Program.ReloadedSettings(e => e.MyNoSqlWriterUrl),
