@@ -122,7 +122,7 @@ namespace Service.UserActivityObserver.Services
 
         private async Task RecordEventsAndKeepLast(List<UserActivity> events)
         {
-            await _writer.BulkInsertOrReplaceAsync(events.Select(UserActivityNoSqlEntity.Create));
+            await _writer.BulkInsertOrReplaceAsync(events.Select(UserActivityNoSqlEntity.Create).ToList());
             await _writer.CleanAndKeepLastRecordsAsync(UserActivityNoSqlEntity.GeneratePartitionKey(),
                 Program.Settings.MaxStoredEvents);
         }
